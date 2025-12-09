@@ -15,7 +15,7 @@ class Topic(models.Model):
 class Flashcard(models.Model):
     quation = models.TextField()
     answer = models.TextField()
-    topic = models.ForeignKey(Topic, on_delete=models.SET_NULL, null=True)
+    topic = models.ForeignKey(Topic, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return self.quation
