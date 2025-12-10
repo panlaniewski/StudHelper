@@ -3,11 +3,34 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-md-8">
-        <h1 class="mb-4">Добро пожаловать на StudHelper!</h1>
-        <p class="lead">Помогаем по учёбе по-умному и быстро!</p>
-        <div class="card mt-4">
+<div class="">
+    <div class="">
+        <h1 class="mb-4 text-center" style="font-size: 55px">Добро пожаловать на StudHelper!</h1>
+        <p class="lead text-center">Помогаем по учёбе по-умному и быстро!</p>
+        <div class="">
+            <div class="card">
+                <button type="button" class="btn btn-primary btn-lg btn-block bi bi-plus-circle">
+                    Добавить предмет
+                </button>
+                <div class="card-body">
+                    <h2 class="card-title text-center bi bi-bookshelf">Ваши предметы</h2>
+                    <ul class="list-group">
+                        {% for subject in subjects %}
+                            <li class="list-group-item">
+                                <a 
+                                    href="{% url 'subject_detail' subject.slug %}" 
+                                    class="nav-link text-center bi bi-book-half"
+                                    style="font-size: 25px"
+                                >
+                                    {{ subject.name }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="card mt-4">
             <div class="card-header">
                 <h5>Пример карточки</h5>
             </div>
@@ -17,8 +40,8 @@
                     Открыть модальное окно
                 </button>
             </div>
-        </div>
-        <div class="card mt-4">
+        </div> -->
+        <!-- <div class="card mt-4">
             <div class="card-body">
                 <h5 class="card-title">Пример формы</h5>
                 <form method="post">
@@ -35,21 +58,9 @@
                 </form>
             </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Боковая панель</h5>
-                <ul class="list-group">
-                    <li class="list-group-item">Элемент 1</li>
-                    <li class="list-group-item">Элемент 2</li>
-                    <li class="list-group-item">Элемент 3</li>
-                </ul>
-            </div>
-        </div>
-    </div>
+    </div> -->
 </div>
-<div class="modal fade" id="exampleModal" tabindex="-1">
+<!-- <div class="modal fade" id="exampleModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,5 +76,5 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
 {% endblock %}
