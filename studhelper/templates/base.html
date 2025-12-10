@@ -9,37 +9,36 @@
         {% block extra_css %}{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="">StudHelper</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="">Главная</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">О нас</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Контакты</a>
-                    </li>
-                </ul>
-            </div>
+        <div class="d-flex flex-column min-vh-100">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #2B71C7">
+                <div class="container">
+                    <a class="navbar-brand text-white" href="{% url 'home' %}" style="font-weight: bold">StudHelper</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active text-white" href="">Зарегестрироваться</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active text-white" href="">Войти</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+            <main class="container mt-4 flex-grow-1">
+                {% block content %}
+                {% endblock %}
+            </main>
+            <footer class="text-white mt-5 py-4" style="background-color: #2B71C7">
+                <div class="container text-center">
+                    Pyhton-labs project by Alyaksey Lanewski & Stelmach Svyatoslav
+                </div>
+            </footer>
         </div>
-    </nav>
-    <main class="container mt-4">
-        {% block content %}
-        {% endblock %}
-    </main>
-    <footer class="bg-dark text-white mt-5 py-4">
-        <div class="container text-center">
-            <p>&copy; {% now "Y" %} Мой сайт. Все права защищены.</p>
-        </div>
-    </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
     </body>
 </html>
