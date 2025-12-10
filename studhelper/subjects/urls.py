@@ -1,10 +1,8 @@
 from django.urls import path, include
 from . import views
 
-app_name = 'subjects'
-
 urlpatterns = [
     path('', views.subjects_list),
-    path('<int:subject_id>/', views.subject),
-    path('<int:subject_id>/topics/', include("topics.urls"))
+    path('<slug:slug>/', views.subject, name="subject_detail"),
+    path('<slug:slug/topics/', include("topics.urls"))
 ]
