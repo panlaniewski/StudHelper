@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Вход{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h2 class="text-center mb-4 fw-bold">
+                    <i class="bi bi-box-arrow-in-right me-2"></i>Вход
+                </h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        {{ form.username.label_tag }}
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.password.label_tag }}
+                        {{ form.password }}
+                    </div>
+                    {% if form.errors %}
+                        <div class="text-danger small mb-2">Неверный логин или пароль.</div>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">Войти</button>
+                </form>
+                <p class="text-center mt-3">
+                    Нет аккаунта?
+                    <a href="" class="fw-semibold">Зарегистрироваться</a>
+                </p>
+                <p class="text-center mt-2">
+                    <a href="">Забыли пароль?</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
