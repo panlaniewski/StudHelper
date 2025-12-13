@@ -6,5 +6,5 @@ urlpatterns = [
     path('<slug:slug>/', views.subject, name="subject_detail"),
     path('<slug:slug>/topics/', include("topics.urls")),
     path('<slug:slug>/delete/', views.subject_delete, name='subject_delete'),
-    path('subjects/<slug:slug>/edit/', views.subject_edit, name='subject_edit'),
+    path('<slug:slug>/edit/', views.subject_edit, name='subject_edit'),
 ]
