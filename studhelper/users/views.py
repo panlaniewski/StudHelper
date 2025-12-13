@@ -7,7 +7,7 @@ from django.urls import reverse
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
-    template_name = 'users/login.html'
+    template_name = 'login.html'
     extra_context = {'title': 'Авторизация'}
 
 # def login_user(request):
