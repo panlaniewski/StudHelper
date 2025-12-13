@@ -20,7 +20,7 @@
                         <ul class="navbar-nav ms-auto">
                             {% if user.is_authenticated %}
                             <li class="nav-item">
-                                {{ user.username }}
+                                 <a href="{% url 'users:profile' %}">{{ user.username }}</a>
                                 <a class="nav-link active text-white" href="{% url 'users:logout' %}">Выйти</a>
                             </li>
                             {% else %}
