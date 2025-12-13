@@ -18,12 +18,19 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav ms-auto">
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                {{ user.username }}
+                                <a class="nav-link active text-white" href="{% url 'users:logout' %}">Выйти</a>
+                            </li>
+                            {% else %}
                             <li class="nav-item">
                                 <a class="nav-link active text-white" href="">Зарегестрироваться</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link active text-white" href="">Войти</a>
+                                <a class="nav-link active text-white" href="{% url 'users:login' %}">Войти</a>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </div>
