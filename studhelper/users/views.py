@@ -1,7 +1,4 @@
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
 from .forms import LoginUserForm, RegisterUserForm
-from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.views import LoginView
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
@@ -16,7 +13,7 @@ class RegisterUser(CreateView):
     template_name = 'register.html'
     extra_context = {'title': 'Регистрация'}
     success_url = reverse_lazy('users:login')
-    
+
 # def register(request):
 #     if request.method == 'POST':
 #         form = RegisterUserForm(request.POST)
