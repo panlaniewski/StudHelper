@@ -16,7 +16,7 @@ def login_user(request):
     else:
         form = LoginUserForm()
     
-    return render(request, 'users/login.html', {'form': form})
+    return render(request, 'login.html', {'form': form})
 
 def logout_user(request):
     logout(request)
