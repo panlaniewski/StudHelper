@@ -3,78 +3,44 @@
 {% block title %}Главная{% endblock %}
 
 {% block content %}
-<div class="">
-    <div class="">
-        <h1 class="mb-4 text-center" style="font-size: 55px">Добро пожаловать на StudHelper!</h1>
-        <p class="lead text-center">Помогаем по учёбе по-умному и быстро!</p>
-        <div class="">
-            <div class="card">
-                <button type="button" class="btn btn-primary btn-lg btn-block bi bi-plus-circle">
-                    Добавить предмет
-                </button>
-                <div class="card-body">
-                    <h2 class="card-title text-center bi bi-bookshelf">Ваши предметы</h2>
-                    <ul class="list-group">
+<div class="text-center mb-5">
+    <h1 class="fw-bold" style="font-size: 48px;">Добро пожаловать в StudHelper!</h1>
+    <p class="lead text-muted">Собери свои предметы, темки и карточки — учёба сама себя не выучит.</p>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-end mb-3">
+            <a href="" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle me-2"></i>Добавить предмет
+            </a>
+        </div>
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h2 class="card-title text-center mb-4">
+                    <i class="bi bi-bookshelf me-2"></i>Ваши предметы
+                </h2>
+                {% if subjects %}
+                    <ul class="list-group list-group-flush">
                         {% for subject in subjects %}
-                            <li class="list-group-item">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <a 
-                                    href="{% url 'subject_detail' subject.slug %}" 
-                                    class="nav-link text-center bi bi-book-half"
-                                    style="font-size: 25px"
+                                    href="{% url 'subject_detail' subject.slug %}"
+                                    class="text-decoration-none fs-5"
                                 >
-                                    {{ subject.name }}
+                                    <i class="bi bi-book-half me-2"></i>{{ subject.name }}
                                 </a>
+                                <i class="bi bi-chevron-right text-muted"></i>
                             </li>
                         {% endfor %}
                     </ul>
-                </div>
-            </div>
-        </div>
-        <!-- <div class="card mt-4">
-            <div class="card-header">
-                <h5>Пример карточки</h5>
-            </div>
-            <div class="card-body">
-                <p>Содержимое карточки с полезной информацией.</p>
-                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Открыть модальное окно
-                </button>
-            </div>
-        </div> -->
-        <!-- <div class="card mt-4">
-            <div class="card-body">
-                <h5 class="card-title">Пример формы</h5>
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="name@example.com">
-                    </div>
-                    <div class="mb-3">
-                        <label for="message" class="form-label">Сообщение</label>
-                        <textarea class="form-control" id="message" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-success">Отправить</button>
-                </form>
-            </div>
-        </div>
-    </div> -->
-</div>
-<!-- <div class="modal fade" id="exampleModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Модальное окно</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-            <div class="modal-body">
-                <p>Это пример модального окна Bootstrap 5.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
-                <button type="button" class="btn btn-primary">Сохранить</button>
+                {% else %}
+                    <p class="text-center text-muted fs-5 my-4">
+                        Пока пусто. Самое время добавить первый предмет.
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>
-</div> -->
+</div>
 {% endblock %}
