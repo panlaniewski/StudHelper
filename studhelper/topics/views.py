@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from .models import Topic
 from .form import TopicForm
 from subjects.models import Subject
+import markdown
 
 
 def topics_list(request, subject_id):
@@ -12,7 +13,16 @@ def topics_list(request, subject_id):
 
 def topic(request, pk, slug):
     topic = get_object_or_404(Topic, pk=pk)
-    return render(request, "topic_page.html", {'topic': topic })
+    
+    # rendered_workbook = markdown.markdown(
+    #     topic.workbook,
+    #     extensions=["extra", "toc", "codehilite"]
+    # )
+    context = {
+        "topic": topic,
+        # "synopsis": rendered_workbook,
+    }
+    return render(request, "topic_page.html", context)
 
 def create_topic(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
