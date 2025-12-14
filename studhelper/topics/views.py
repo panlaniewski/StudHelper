@@ -14,13 +14,13 @@ def topics_list(request, subject_id):
 def topic(request, pk, slug):
     topic = get_object_or_404(Topic, pk=pk)
     
-    rendered_workbook = markdown.markdown(
-        topic.workbook,
-        extensions=["extra", "toc", "codehilite"]
-    )
+    # rendered_workbook = markdown.markdown(
+    #     topic.workbook,
+    #     extensions=["extra", "toc", "codehilite"]
+    # )
     context = {
         "topic": topic,
-        "synopsis": rendered_workbook,
+        # "synopsis": rendered_workbook,
     }
     return render(request, "topic_page.html", context)
 
