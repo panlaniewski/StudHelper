@@ -8,14 +8,18 @@ from subjects.forms import SubjectForm
 from .forms import SearchForm
 # ------------------------------------------------------------------------------------------------------------------------------
 def index(request):
-    subjects = Subject.objects.all()
+
+    if not request.user.is_authenticated:
+        return render(request, 'not_logged_in.html')
+  
     #Поиск------------------------------------------------------------------------------------------------------------------------------
     keyword = request.GET.get("keyword", "")
     if keyword:
-        q = Q(name__icontains=keyword)
+        q = (Q(name__icontains=keyword) & Q(user=request.user)) if request.user.is_authenticated else Q(pk__isnull=True)
         subjects = Subject.objects.filter(q)
     else:
-        subjects = Subject.objects.all()
+        q = Q(user=request.user) if request.user.is_authenticated else Q(pk__isnull=True)
+        subjects = Subject.objects.filter(q)
     #Пагинация------------------------------------------------------------------------------------------------------------------------------
     paginator = Paginator(subjects, 6)
     if "page" in request.GET:
@@ -30,7 +34,7 @@ def index(request):
         form = SubjectForm(request.POST)
         if form.is_valid():
             subject = form.save(commit=False)
-            # subject.user = request.user
+            subject.user = request.user
             subject.save()
             return redirect("home")
     else:

@@ -4,7 +4,7 @@ import unidecode
 from studhelper import settings
 
 class Subject(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Название", unique=True)
+    name = models.CharField(max_length=100, verbose_name="Название")
     slug = models.SlugField(blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     
