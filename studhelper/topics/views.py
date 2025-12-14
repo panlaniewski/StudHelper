@@ -7,7 +7,7 @@ from .form import TopicForm
 from subjects.models import Subject
 import markdown
 
-@login_required
+
 def topics_list(request, subject_id):
     return HttpResponse(f"Тут все темы предмета {subject_id}!")
 
