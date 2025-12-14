@@ -11,6 +11,7 @@
                 </h2>
                 <form method="post">
                     {% csrf_token %}
+                    <input type="hidden" name="next" value="{{ next }}" />
                     <div class="mb-3">
                         <label class="form-label">Имя пользователя</label>
                         <div class="input-group">
@@ -41,7 +42,7 @@
                 </form>
                 <p class="text-center mt-3">
                     Нет аккаунта?
-                    <a href="" class="fw-semibold">Зарегистрироваться</a>
+                    <a href="{% url 'users:register' %}" class="fw-semibold">Зарегистрироваться</a>
                 </p>
                 <p class="text-center mt-2">
                     <a href="">Забыли пароль?</a>

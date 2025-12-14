@@ -2,13 +2,17 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.http import require_POST
 # ---------------------------------------------------------------------------------------------------------------------
 from .models import Subject
+from django.contrib.auth.decorators import login_required
+
 from topics.models import Topic
 from .forms import SubjectForm
 from topics.form import TopicForm
 # ---------------------------------------------------------------------------------------------------------------------
+@login_required
 def subjects_list(request):
     return redirect("home")
 # ---------------------------------------------------------------------------------------------------------------------
+@login_required
 def subject(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     topics = Topic.objects.filter(subject=subject)
@@ -22,6 +26,7 @@ def subject_delete(request, slug):
     subject.delete()
     return redirect("home")
 # ---------------------------------------------------------------------------------------------------------------------
+@login_required
 def subject_edit(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     if request.method == "POST":
