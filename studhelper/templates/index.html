@@ -25,9 +25,45 @@
                 <h2 class="card-title text-center mb-4">
                     <i class="bi bi-bookshelf me-2"></i>Ваши предметы
                 </h2>
+                <div class="mb-4">
+                    <form method="get" action="{% url 'home' %}" id="searchForm">
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input 
+                                type="text" 
+                                class="form-control border-start-0" 
+                                name="keyword"
+                                id="subjectSearch" 
+                                placeholder="Поиск предметов..."
+                                aria-label="Поиск предметов"
+                                value="{{ keyword }}"
+                            >
+                            {% if keyword %}
+                            <a 
+                                href="{% url 'home' %}" 
+                                class="btn btn-outline-secondary" 
+                                type="button"
+                                id="clearSearch"
+                            >
+                                <i class="bi bi-x-lg"></i>
+                            </a>
+                            {% endif %}
+                            <button 
+                                class="btn btn-primary" 
+                                type="submit"
+                            >
+                                Найти
+                            </button>
+                        </div>
+                    </form>
+                </div>
                 {% if subjects %}
-                    <ul class="list-group list-group-flush">
-                        {% for subject in subjects %}
+                <div class="d-flex flex-column" style="min-height: 400px;">
+                    <div class="flex-grow-1" style="height: 320px; overflow-y: auto; margin-bottom: 20px;">
+                        <ul class="list-group list-group-flush">
+                            {% for subject in subjects %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
                                 <a href="{% url 'subject_detail' subject.slug %}" class="text-decoration-none fs-5">
                                     <i class="bi bi-book-half me-2"></i>{{ subject.name }}
@@ -82,12 +118,79 @@
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
-                    </ul>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    {% if page.paginator.num_pages > 1 %}
+                    <div class="mt-auto pt-3">
+                        <nav aria-label="Навигация по страницам">
+                            <ul class="pagination justify-content-center mb-2">
+                                {% if page.has_previous %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page=1{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Первая">
+                                            <span aria-hidden="true">&laquo;&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page.previous_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Предыдущая">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&laquo;&laquo;</span>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&laquo;</span>
+                                    </li>
+                                {% endif %}
+                                
+                                {% for num in page.paginator.page_range %}
+                                    {% if page.number == num %}
+                                        <li class="page-item active">
+                                            <span class="page-link">{{ num }}</span>
+                                        </li>
+                                    {% elif num > page.number|add:'-3' and num < page.number|add:'3' %}
+                                        <li class="page-item">
+                                            <a class="page-link" href="?page={{ num }}{% if keyword %}&keyword={{ keyword }}{% endif %}">{{ num }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if page.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page.next_page_number }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Следующая">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ page.paginator.num_pages }}{% if keyword %}&keyword={{ keyword }}{% endif %}" aria-label="Последняя">
+                                            <span aria-hidden="true">&raquo;&raquo;</span>
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&raquo;</span>
+                                    </li>
+                                    <li class="page-item disabled">
+                                        <span class="page-link">&raquo;&raquo;</span>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </nav>
+                    </div>
+                    {% endif %}
+                </div> 
                 {% else %}
-                    <p class="text-center text-muted fs-5 my-4">
+                <div class="text-center text-muted fs-5 my-5 py-4">
+                    <i class="bi bi-inbox display-4 d-block mb-3"></i>
+                    {% if keyword %}
+                        По запросу "{{ keyword }}" ничего не найдено
+                    {% else %}
                         Пока пусто. Самое время добавить первый предмет.
-                    </p>
+                    {% endif %}
+                </div>
                 {% endif %}
             </div>
         </div>
