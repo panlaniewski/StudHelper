@@ -1,0 +1,27 @@
+.synopsis-content h1,
+.synopsis-content h2,
+.synopsis-content h3 {
+    margin-top: 1.5rem;
+}
+
+.synopsis-content p {
+    line-height: 1.7;
+}
+
+.synopsis-content ul,
+.synopsis-content ol {
+    padding-left: 1.3rem;
+}
+
+.synopsis-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+    margin: 1rem 0;
+}
+
+.synopsis-content code {
+    background-color: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
