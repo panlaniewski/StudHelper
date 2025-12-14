@@ -5,7 +5,7 @@ from django.core.paginator import Paginator
 # ---------------------------------------------------------------------------------------------------------------------
 from .models import Subject
 from django.contrib.auth.decorators import login_required
-
+# ------------------------------------------------------------------------------------------------------------------------------
 from topics.models import Topic
 from .forms import SubjectForm
 from topics.form import TopicForm
@@ -19,18 +19,18 @@ def subject(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     topics = Topic.objects.filter(subject=subject)
     form = TopicForm()
-    
+    # ------------------------------------------------------------------------------------------------------------------------------
     keyword = request.GET.get("keyword", "")
     if keyword:
         q = Q(name__icontains=keyword)
         topics = Topic.objects.filter(subject=subject).filter(q)
     else:
         topics = Topic.objects.filter(subject=subject)
-           
+    # ------------------------------------------------------------------------------------------------------------------------------       
     paginator = Paginator(topics, 6) 
     page_num = request.GET.get("page", 1)
     page = paginator.get_page(page_num)
-    
+    # ------------------------------------------------------------------------------------------------------------------------------
     context = {
         'subject': subject,
         'topics': page.object_list,

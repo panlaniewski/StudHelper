@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
+from django.contrib.auth.decorators import login_required
 from .models import Topic
 from .form import TopicForm
 from subjects.models import Subject
 
+@login_required
 def topics_list(request, subject_id):
     return HttpResponse(f"Тут все темы предмета {subject_id}!")
 
