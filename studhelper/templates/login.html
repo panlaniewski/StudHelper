@@ -13,17 +13,32 @@
                     {% csrf_token %}
                     <input type="hidden" name="next" value="{{ next }}" />
                     <div class="mb-3">
-                        {{ form.username.label_tag }}
-                        {{ form.username }}
+                        <label class="form-label">Имя пользователя</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-person"></i>
+                            </span>
+                            {{ form.username }}
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        {{ form.password.label_tag }}
-                        {{ form.password }}
+
+                    <div class="mb-4">
+                        <label class="form-label">Пароль</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="bi bi-lock"></i>
+                            </span>
+                            {{ form.password }}
+                        </div>
                     </div>
                     {% if form.errors %}
-                        <div class="text-danger small mb-2">Неверный логин или пароль.</div>
+                        <div class="alert alert-danger py-2 text-center">
+                            Неверный логин или пароль
+                        </div>
                     {% endif %}
-                    <button type="submit" class="btn btn-primary w-100 btn-lg">Войти</button>
+                    <button type="submit" class="btn btn-primary w-100 btn-lg">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Войти
+                    </button>
                 </form>
                 <p class="text-center mt-3">
                     Нет аккаунта?

@@ -1,9 +1,10 @@
 from django.urls import path
 from . import views
 
-app_name = 'topics'
-
 urlpatterns = [
     path('', views.topics_list),
-    path('<int:topic_id>/', views.topic),
+    path('<int:pk>/', views.topic, name="topic_detail"),
+    path('create/', views.create_topic, name='topic_create'),
+    path('<int:pk>/edit/', views.edit_topic, name='topic_edit'),
+    path('<int:pk>/delete/', views.delete_topic, name='topic_delete'),
 ]

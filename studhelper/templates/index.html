@@ -4,16 +4,21 @@
 
 {% block content %}
 <div class="text-center mb-5">
-    <h1 class="fw-bold" style="font-size: 48px;">Добро пожаловать в StudHelper!</h1>
+    <h1 class="fw-bold" style="font-size: 48px;">Добро пожаловать на StudHelper!</h1>
     <p class="lead text-muted">Собери свои предметы, темки и карточки — учёба сама себя не выучит.</p>
 </div>
 
 <div class="row justify-content-center">
     <div class="col-lg-8">
         <div class="d-flex justify-content-end mb-3">
-            <a href="" class="btn btn-primary btn-lg">
-                <i class="bi bi-plus-circle me-2"></i>Добавить предмет
-            </a>
+            <button 
+                class="btn btn-primary btn-lg"
+                data-bs-toggle="modal"
+                data-bs-target="#addSubjectModal"
+            >
+                <i class="bi bi-plus-circle me-2"></i>
+                Добавить предмет
+            </button>
         </div>
         <div class="card shadow-sm">
             <div class="card-body">
@@ -24,14 +29,59 @@
                     <ul class="list-group list-group-flush">
                         {% for subject in subjects %}
                             <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <a 
-                                    href="{% url 'subject_detail' subject.slug %}"
-                                    class="text-decoration-none fs-5"
-                                >
+                                <a href="{% url 'subject_detail' subject.slug %}" class="text-decoration-none fs-5">
                                     <i class="bi bi-book-half me-2"></i>{{ subject.name }}
                                 </a>
-                                <i class="bi bi-chevron-right text-muted"></i>
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editModal-{{ subject.id }}">
+                                        <i class="bi bi-pencil"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal-{{ subject.id }}">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </div>
                             </li>
+                            <div class="modal fade" id="deleteModal-{{ subject.id }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title">Подтвердите удаление</h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Вы уверены, что хотите удалить предмет "<strong>{{ subject.name }}</strong>"?
+                                        <br>Все связанные темы, конспекты и карточки будут удалены!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <form method="post" action="{% url 'subject_delete' subject.slug %}">
+                                        {% csrf_token %}
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                        <button type="submit" class="btn btn-danger">Удалить</button>
+                                        </form>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="editModal-{{ subject.id }}" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-primary text-white">
+                                            <h5 class="modal-title">Изменить название предмета</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form method="post" action="{% url 'subject_edit' subject.slug %}">
+                                            {% csrf_token %}
+                                            {{ form.name }}
+                                            <div class="mt-3 text-end">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                                            </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         {% endfor %}
                     </ul>
                 {% else %}
@@ -40,6 +90,42 @@
                     </p>
                 {% endif %}
             </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addSubjectModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-header">
+                    <h5 class="modal-title">
+                        <i class="bi bi-book me-2"></i>Новый предмет
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    {% for field in form %}
+                        <div class="mb-3">
+                            <label class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% if field.errors %}
+                                <div class="text-danger small">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal">
+                        Отмена
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Создать
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

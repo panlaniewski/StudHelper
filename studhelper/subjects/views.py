@@ -1,14 +1,41 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.views.decorators.http import require_POST
+# ---------------------------------------------------------------------------------------------------------------------
 from .models import Subject
 from django.contrib.auth.decorators import login_required
 
+from topics.models import Topic
+from .forms import SubjectForm
+from topics.form import TopicForm
+# ---------------------------------------------------------------------------------------------------------------------
+@login_required
 def subjects_list(request):
     return redirect("home")
-
+# ---------------------------------------------------------------------------------------------------------------------
 @login_required
 def subject(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
-    return render(request, "subject_page.html", {'subject': subject})
-
-
+    topics = Topic.objects.filter(subject=subject)
+    form = TopicForm()
+    context = {'subject': subject, 'topics': topics, "form": form }
+    return render(request, "subject_page.html", context)
+# ---------------------------------------------------------------------------------------------------------------------
+@require_POST
+def subject_delete(request, slug):
+    subject = get_object_or_404(Subject, slug=slug)
+    subject.delete()
+    return redirect("home")
+# ---------------------------------------------------------------------------------------------------------------------
+@login_required
+def subject_edit(request, slug):
+    subject = get_object_or_404(Subject, slug=slug)
+    if request.method == "POST":
+        form = SubjectForm(request.POST, instance=subject)
+        if form.is_valid():
+            form.save()
+            return redirect("home")
+    else:
+        form = SubjectForm(instance=subject)
+        
+    context = {"form": form, "subjects": Subject.objects.all()}
+    return render(request, "index.html", context)
