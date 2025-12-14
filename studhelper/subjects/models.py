@@ -1,11 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
 import unidecode
+from studhelper import settings
 
 class Subject(models.Model):
-    name = models.CharField(max_length=100, verbose_name="Название", unique=True)
+    name = models.CharField(max_length=100, verbose_name="Название")
     slug = models.SlugField(blank=True)
-    # user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
     
     def save(self, *args, **kwargs):
         base_slug = slugify(unidecode.unidecode(self.name))
