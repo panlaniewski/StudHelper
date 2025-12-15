@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -7,4 +7,5 @@ urlpatterns = [
     path('create/', views.create_topic, name='topic_create'),
     path('<int:pk>/edit/', views.edit_topic, name='topic_edit'),
     path('<int:pk>/delete/', views.delete_topic, name='topic_delete'),
+    path('<int:pk>/flashcards/', include("flashcards.urls")),
 ]

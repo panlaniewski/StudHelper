@@ -9,17 +9,17 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('subjects', '0001_initial'),
+        ('topics', '0001_initial'),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Topic',
+            name='Flashcard',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=200)),
-                ('workbook', models.TextField(blank=True)),
-                ('subject', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='subjects.subject')),
+                ('question', models.TextField()),
+                ('answer', models.TextField(blank=True)),
+                ('topic', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to='topics.topic')),
             ],
         ),
     ]
