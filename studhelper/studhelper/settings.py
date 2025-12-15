@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'subjects',
     'topics',
     'users',
+    'flashcards',
 ]
 
 MIDDLEWARE = [

@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ flashcard.question }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="text-center mb-4">
+        <h1 class="fw-bold" style="font-size: 36px;">{{ flashcard.question }}</h1>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm h-100">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">
+                        <i class="bi bi-journal-text me-2"></i>Ответ: {{ flashcard.answer }}       
+                    </h4>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

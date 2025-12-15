@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
 from .models import Topic
-from .form import TopicForm
 from subjects.models import Subject
-import markdown
+from flashcards.models import Flashcard
+from .form import TopicForm
+from flashcards.form import FlashcardForm
+
+# import markdown
 
 
 def topics_list(request, subject_id):
@@ -13,13 +15,18 @@ def topics_list(request, subject_id):
 
 def topic(request, pk, slug):
     topic = get_object_or_404(Topic, pk=pk)
-    
+    flashcards = Flashcard.objects.filter(topic=topic)
+    form = FlashcardForm()
+    # ------------------------------------------------------------------------------------------------------------------------------
+
     # rendered_workbook = markdown.markdown(
     #     topic.workbook,
     #     extensions=["extra", "toc", "codehilite"]
     # )
     context = {
         "topic": topic,
+        'flashcards': flashcards,
+        'form': form,
         # "synopsis": rendered_workbook,
     }
     return render(request, "topic_page.html", context)
