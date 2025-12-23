@@ -7,7 +7,7 @@ from flashcards.models import Flashcard
 from .form import TopicForm
 from flashcards.form import FlashcardForm
 
-# import markdown
+import markdown
 
 
 def topics_list(request, subject_id):
@@ -19,15 +19,15 @@ def topic(request, pk, slug):
     form = FlashcardForm()
     # ------------------------------------------------------------------------------------------------------------------------------
 
-    # rendered_workbook = markdown.markdown(
-    #     topic.workbook,
-    #     extensions=["extra", "toc", "codehilite"]
-    # )
+    rendered_workbook = markdown.markdown(
+        topic.workbook,
+        extensions=["extra", "toc", "codehilite"]
+    )
     context = {
         "topic": topic,
         'flashcards': flashcards,
         'form': form,
-        # "synopsis": rendered_workbook,
+        "synopsis": rendered_workbook,
     }
     return render(request, "topic_page.html", context)
 
