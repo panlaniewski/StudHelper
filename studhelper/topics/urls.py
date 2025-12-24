@@ -7,5 +7,6 @@ urlpatterns = [
     path('create/', views.create_topic, name='topic_create'),
     path('<int:pk>/edit/', views.edit_topic, name='topic_edit'),
     path('<int:pk>/delete/', views.delete_topic, name='topic_delete'),
+    path('<int:pk>/edit_synopsis/', views.edit_synopsis, name="edit_synopsis"),
     path('<int:pk>/flashcards/', include("flashcards.urls")),
 ]
