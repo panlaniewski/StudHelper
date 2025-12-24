@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card mb-3">
+    <div class="card-body">
+      <h5 class="card-title">Ваш конспект по теме</h5>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        <div class="mb-3">
+          {{ form.workbook }}
+          {% if form.workbook.help_text %}
+            <small class="form-text text-muted">{{ form.workbook.help_text }}</small>
+          {% endif %}
+          {% if form.workbook.errors %}
+            <div class="text-danger mt-1">
+              {{ form.workbook.errors }}
+            </div>
+          {% endif %}
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <a href="{% url 'topic_detail' topic.subject.slug topic.pk %}" class="btn btn-secondary">Назад</a>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}
