@@ -11,13 +11,16 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Статические файлы
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -45,6 +48,8 @@ INSTALLED_APPS = [
     'topics',
     'users',
     'flashcards',
+    'django_ckeditor_5',
+    #'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +148,238 @@ AUTHENTICATION_BACKENDS = [
 EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
 AUTH_USER_MODEL = 'auth.User'  # Using default User model
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'
+
+# Настройки CKEditor 5
+CKEDITOR_5_CONFIGS = {
+    'default': {
+        'toolbar': {
+            'items': [
+                'heading',
+                '|',
+                'bold',
+                'italic',
+                'underline',
+                'strikethrough',
+                'subscript',
+                'superscript',
+                '|',
+                'MathType', 'ChemType',  # Добавляем поддержку формул
+                'bulletedList',
+                'numberedList',
+                'todoList',
+                '|',
+                'outdent',
+                'indent',
+                '|',
+                'alignment',
+                '|',
+                'fontSize',
+                'fontFamily',
+                'fontColor',
+                'fontBackgroundColor',
+                'highlight',
+                '|',
+                'code',
+                'codeBlock',  # блоки кода
+                '|',
+                'link',
+                'imageUpload',  # загрузка изображений
+                'insertTable',
+                'blockQuote',
+                'horizontalLine',
+                '|',
+                # 'htmlEmbed',
+                'specialCharacters',
+                '|',
+                'findAndReplace',
+                'selectAll',
+                '|',
+                'undo',
+                'redo',
+                '|',
+                # 'sourceEditing',  # редактирование HTML
+            ],
+            'shouldNotGroupWhenFull': True
+        },
+        # Конфигурация MathType
+        'mathType': {
+            'forceOutput': 'latex',  # Сохранять формулы в LaTeX
+            'editorParameters': {
+                'language': 'ru',
+                'toolbar': 'default',
+                'menu': 'default'
+            }
+        },
+        'language': 'ru',
+        'image': {
+            'toolbar': [
+                'imageTextAlternative',
+                '|',
+                'imageStyle:alignLeft',
+                'imageStyle:alignRight',
+                'imageStyle:alignCenter',
+                'imageStyle:side',
+                '|',
+                'toggleImageCaption',
+                'imageResize'
+            ],
+            'styles': [
+                'full',
+                'side',
+                'alignLeft',
+                'alignRight',
+                'alignCenter',
+            ]
+        },
+        'upload': {
+                'types': ['jpeg', 'png', 'gif', 'bmp', 'webp', 'tiff', 'svg+xml']
+            },      
+        'extraPlugins': [
+            'MathType',
+            'ChemType',
+            'SimpleUploadAdapter'  # Плагин для загрузки
+        ],  
+        'table': {
+            'contentToolbar': [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells',
+                'tableProperties',
+                'tableCellProperties'
+            ]
+        },
+        'list': {
+            'properties': {
+                'styles': True,
+                'startIndex': True,
+                'reversed': True
+            }
+        },
+        'heading': {
+            'options': [
+                {'model': 'paragraph', 'title': 'Абзац', 'class': 'ck-heading_paragraph'},
+                {'model': 'heading1', 'view': 'h1', 'title': 'Заголовок 1', 'class': 'ck-heading_heading1'},
+                {'model': 'heading2', 'view': 'h2', 'title': 'Заголовок 2', 'class': 'ck-heading_heading2'},
+                {'model': 'heading3', 'view': 'h3', 'title': 'Заголовок 3', 'class': 'ck-heading_heading3'},
+                {'model': 'heading4', 'view': 'h4', 'title': 'Заголовок 4', 'class': 'ck-heading_heading4'},
+                {'model': 'heading5', 'view': 'h5', 'title': 'Заголовок 5', 'class': 'ck-heading_heading5'},
+                {'model': 'heading6', 'view': 'h6', 'title': 'Заголовок 6', 'class': 'ck-heading_heading6'}
+            ]
+        },
+        'codeBlock': {
+            'languages': [
+                {'language': 'python', 'label': 'Python'},
+                {'language': 'javascript', 'label': 'JavaScript'},
+                {'language': 'html', 'label': 'HTML'},
+                {'language': 'css', 'label': 'CSS'},
+                {'language': 'java', 'label': 'Java'},
+                {'language': 'cpp', 'label': 'C++'},
+                {'language': 'c', 'label': 'C'},
+                {'language': 'csharp', 'label': 'C#'},
+                {'language': 'php', 'label': 'PHP'},
+                {'language': 'ruby', 'label': 'Ruby'},
+                {'language': 'go', 'label': 'Go'},
+                {'language': 'rust', 'label': 'Rust'},
+                {'language': 'sql', 'label': 'SQL'},
+                {'language': 'bash', 'label': 'Bash/Shell'},
+                {'language': 'json', 'label': 'JSON'},
+                {'language': 'yaml', 'label': 'YAML'},
+                {'language': 'xml', 'label': 'XML'},
+                {'language': 'markdown', 'label': 'Markdown'},
+                {'language': 'plaintext', 'label': 'Простой текст'},
+            ]
+        },
+        # 'htmlSupport': {
+        #     'allow': [
+        #         {
+        #             'name': 'pre',
+        #             'attributes': ['class', 'data-language'],
+        #             'classes': ['*']  # разрешить все классы
+        #         },
+        #         {
+        #             'name': 'code',
+        #             'attributes': ['class'],
+        #             'classes': ['*']  # разрешить все классы
+        #         }
+        #     ]
+        # },
+        'fontSize': {
+            'options': [
+                9, 11, 13, 'default', 17, 19, 21, 24, 28, 32, 36
+            ]
+        },
+        'fontFamily': {
+            'options': [
+                'default',
+                'Arial, Helvetica, sans-serif',
+                'Courier New, Courier, monospace',
+                'Georgia, serif',
+                'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                'Tahoma, Geneva, sans-serif',
+                'Times New Roman, Times, serif',
+                'Trebuchet MS, Helvetica, sans-serif',
+                'Verdana, Geneva, sans-serif',
+                'Consolas, Monaco, monospace',
+            ]
+        },
+        'link': {
+            'decorators': {
+                'openInNewTab': {
+                    'mode': 'manual',
+                    'label': 'Открыть в новой вкладке',
+                    'attributes': {
+                        'target': '_blank',
+                        'rel': 'noopener noreferrer'
+                    }
+                },
+                'toggleDownloadable': {
+                    'mode': 'manual',
+                    'label': 'Скачать файл',
+                    'attributes': {
+                        'download': 'download'
+                    }
+                }
+            }
+        },
+        'htmlEmbed': {
+            'showPreviews': True
+        },
+        'extraPlugins': [
+            # Уже включены по умолчанию
+        ],
+        'removePlugins': [
+            'Markdown',  # отключаем markdown если не нужно
+        ],
+    },
+    'minimal': {
+        'toolbar': {
+            'items': [
+                'bold', 'italic', 'underline',
+                '|',
+                'bulletedList', 'numberedList',
+                '|',
+                'link', 'codeBlock',
+                '|',
+                'undo', 'redo'
+            ],
+            'shouldNotGroupWhenFull': True
+        },
+        'language': 'ru',
+        'codeBlock': {
+            'languages': [
+                {'language': 'python', 'label': 'Python'},
+                {'language': 'javascript', 'label': 'JavaScript'},
+            ]
+        },
+    },
+}
+
+# Настройки для загрузки файлов
+CKEDITOR_5_FILE_STORAGE = "django.core.files.storage.FileSystemStorage"
+CKEDITOR_5_UPLOAD_PATH = "uploads/ckeditor5/"
+CKEDITOR_5_ALLOW_NONIMAGE_FILES = False  # разрешить только изображения
+CKEDITOR_5_RESTRICT_BY_USER = True  # пользователь видит только свои файлы
+CKEDITOR_5_FILE_UPLOAD_PERMISSION = "auth.user"  # кто может загружать
