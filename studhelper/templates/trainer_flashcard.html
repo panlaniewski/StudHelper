@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Тест: {{ topic.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-3 text-center">{{ topic.name }} — карточка {{ index }} из {{ total }}</h2>
+
+    <div class="card shadow-sm mx-auto" style="max-width:600px;">
+        <div class="card-body text-center">
+            <h5 class="fw-bold mb-3">Вопрос</h5>
+            <p id="question">{{ flashcard.question }}</p>
+
+            <div id="answer" class="d-none text-muted mb-3">
+                {{ flashcard.answer|default:"Ответ не задан" }}
+            </div>
+
+            <button class="btn btn-primary" id="toggleAnswerBtn">Показать ответ</button>
+
+            <form method="post" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-success d-none" id="nextBtn">Следующая</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+const toggleBtn = document.getElementById('toggleAnswerBtn');
+const nextBtn = document.getElementById('nextBtn');
+const answerDiv = document.getElementById('answer');
+const questionDiv = document.getElementById('question');
+
+toggleBtn.addEventListener('click', () => {
+    answerDiv.classList.toggle('d-none');
+    questionDiv.classList.toggle('d-none');
+    toggleBtn.classList.add('d-none'); // скрываем кнопку после показа ответа
+    nextBtn.classList.remove('d-none'); // показываем кнопку следующей карточки
+});
+</script>
+{% endblock %}

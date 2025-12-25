@@ -48,28 +48,52 @@
                             <h4 class="card-title mb-3">
                                 <i class="bi bi-lightbulb me-2"></i>Карточки
                             </h4>
-                            {% if flashcards %}
-                                <ul class="list-group list-group-flush mb-3">
-                                    {% for flashcard in flashcards %}
-                                        <li class="list-group-item">
-                                            <a href=""
-                                               class="text-decoration-none">
-                                                {{ flashcard.question|truncatechars:70 }}
-                                            </a>
-                                        </li>
-                                    {% endfor %}
-                                </ul>
-                            {% else %}
-                                <div class="text-center text-muted my-4">
-                                    <i class="bi bi-inbox display-6 d-block mb-2"></i>
-                                    Карточек пока нет
-                                </div>
-                            {% endif %}
-                            <a href=""
-                               class="btn btn-primary w-100">
+                            <button 
+                                class="btn btn-primary w-100"
+                                data-bs-toggle="modal"
+                                data-bs-target="#addFlashcardModal"
+                            >
                                 <i class="bi bi-plus-circle me-2"></i>
                                 Добавить карточку
-                            </a>
+                            </button>
+                            <a href="{% url 'topic_test_trainer' topic.subject.slug topic.pk %}" 
+                                class="btn btn-success w-100 mt-2">
+                                    <i class="bi bi-play-circle me-2"></i>
+                                    Пройти тест
+                                </a>
+                            {% if flashcards %}
+                            <div class="list-group mb-3">
+                                {% for flashcard in flashcards %}
+                                <div class="list-group-item py-3 px-3 align-items-start">
+                                    <div class="">
+                                        <a href="#"
+                                            class="text-decoration-none text-dark fs-5"
+                                            data-bs-toggle="modal"
+                                            data-bs-target="#flashcardModal"
+                                            data-question="{{ flashcard.question|escapejs }}"
+                                            data-answer="{{ flashcard.answer|escapejs }}">
+                                                {{ flashcard.question|truncatechars:80 }}
+                                        </a>
+                                    </div>
+                                    <div class="py-2 d-flex gap-2">
+                                        <a 
+                                            href="{% url 'flashcard_edit' topic.subject.slug topic.pk flashcard.pk %}"
+                                            class="me-3 text-decoration-none"
+                                        >
+                                            Редактировать
+                                        </a>
+                                        <form method="post"
+                                            action="{% url 'flashcard_delete' topic.subject.slug topic.pk flashcard.pk %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-link p-0 text-decoration-none text-danger">
+                                                Удалить
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -77,4 +101,114 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="addFlashcardModal" tabindex="-1"> 
+    <div class="modal-dialog modal-dialog-centered"> 
+        <div class="modal-content"> 
+            <form method="post" action="{% url 'flashcard_create' topic.subject.slug topic.pk %}"> 
+                {% csrf_token %} 
+                <div class="modal-header"> 
+                    <h5 class="modal-title"> 
+                        <i class="bi bi-lightbulb me-2"></i>
+                        Новая карточка 
+                    </h5> 
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button> 
+                </div> 
+                <div class="modal-body"> {% for field in form %} 
+                    <div class="mb-3"> 
+                        <label class="form-label">{{ field.label }}</label> 
+                        {{ field }} {% if field.errors %} 
+                        <div class="text-danger small"> 
+                            {{ field.errors }}           
+                        </div> 
+                        {% endif %} 
+                    </div> 
+                {% endfor %} 
+                </div> 
+                <div class="modal-footer"> 
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal"> 
+                        Отмена 
+                    </button> 
+                    <button type="submit" class="btn btn-primary"> 
+                        Создать 
+                    </button> 
+                </div> 
+            </form> 
+        </div> 
+    </div> 
+</div>
+<div class="modal fade" id="flashcardModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Карточка</h5>
+        <button type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <div id="flashcard-question">
+          <h5 class="fw-bold mb-2">Вопрос</h5>
+          <p></p>
+        </div>
+
+        <div id="flashcard-answer" class="d-none">
+          <h5 class="fw-bold mb-2">Ответ</h5>
+          <p class="text-muted"></p>
+        </div>
+
+      </div>
+
+      <div class="modal-footer justify-content-between">
+        <button class="btn btn-outline-primary"
+                id="toggleFlashcardBtn">
+          Показать ответ
+        </button>
+
+        <button class="btn btn-secondary"
+                data-bs-dismiss="modal">
+          Закрыть
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script>
+document.getElementById('flashcardModal')
+  .addEventListener('show.bs.modal', function (event) {
+
+    const trigger = event.relatedTarget;
+
+    const question = trigger.dataset.question;
+    const answer = trigger.dataset.answer;
+
+    const modal = this;
+
+    const questionDiv = modal.querySelector('#flashcard-question');
+    const answerDiv = modal.querySelector('#flashcard-answer');
+    const toggleBtn = modal.querySelector('#toggleFlashcardBtn');
+
+    questionDiv.querySelector('p').textContent = question;
+    answerDiv.querySelector('p').textContent = answer || 'Ответ не задан';
+
+    questionDiv.classList.remove('d-none');
+    answerDiv.classList.add('d-none');
+    toggleBtn.textContent = 'Показать ответ';
+
+    toggleBtn.onclick = () => {
+        const isAnswerHidden = answerDiv.classList.contains('d-none');
+
+        answerDiv.classList.toggle('d-none');
+        questionDiv.classList.toggle('d-none');
+
+        toggleBtn.textContent = isAnswerHidden
+            ? 'Скрыть ответ'
+            : 'Показать ответ';
+    };
+});
+</script>
 {% endblock %}

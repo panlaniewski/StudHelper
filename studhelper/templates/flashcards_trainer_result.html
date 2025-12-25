@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Результат теста{% endblock %}
+
+{% block content %}
+<div class="container py-4 text-center">
+    <h2>Тест по теме {{ topic.name }} завершён!</h2>
+    <p>Карточек всего: {{ total }}</p>
+    <p>Правильных ответов: {{ correct }}</p>
+    <a href="{% url 'topic_detail' topic.subject.slug topic.pk %}" class="btn btn-primary mt-3">Вернуться к теме</a>
+</div>
+{% endblock %}
