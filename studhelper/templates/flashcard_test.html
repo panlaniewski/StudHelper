@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Тест: {{ topic.name }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4 text-center">Тест: {{ topic.name }}</h1>
+
+    <div class="row g-4">
+        {% for flashcard in flashcards %}
+        <div class="col-lg-6">
+            <div class="card shadow-sm test-card">
+                <div class="card-body">
+                    <h5 class="card-title">Вопрос</h5>
+                    <p class="flashcard-question">{{ flashcard.question }}</p>
+
+                    <div class="flashcard-answer d-none text-muted">
+                        {{ flashcard.answer|default:"Ответ не задан" }}
+                    </div>
+
+                    <button class="btn btn-sm btn-outline-primary mt-2 toggle-answer-btn">
+                        Показать ответ
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="text-center mt-4">
+        <a href="{% url 'topic_detail' topic.subject.slug topic.pk %}" 
+           class="btn btn-secondary">Завершить тест</a>
+    </div>
+</div>
+<script>
+document.querySelectorAll('.toggle-answer-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const card = btn.closest('.card-body');
+        const answer = card.querySelector('.flashcard-answer');
+        const question = card.querySelector('.flashcard-question');
+
+        const isHidden = answer.classList.contains('d-none');
+
+        answer.classList.toggle('d-none');
+        question.classList.toggle('d-none');
+
+        btn.textContent = isHidden ? 'Скрыть ответ' : 'Показать ответ';
+    });
+});
+</script>
+{% endblock %}
