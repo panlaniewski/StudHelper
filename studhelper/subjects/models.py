@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 import unidecode
 from studhelper import settings
@@ -6,7 +7,7 @@ from studhelper import settings
 class Subject(models.Model):
     name = models.CharField(max_length=100, verbose_name="Название")
     slug = models.SlugField(blank=True)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True, blank=True, verbose_name="Пользователь")
     
     def save(self, *args, **kwargs):
         base_slug = slugify(unidecode.unidecode(self.name))
@@ -22,8 +23,11 @@ class Subject(models.Model):
     
     class Meta:
         verbose_name_plural = "Предметы"
-        verbose_name = "Предмет"
-        ordering = ["-id"] 
+        verbose_name = "Предметы"
+        ordering = ["-id"]
+
+    def get_absolute_url(self):
+        return reverse('subject_detail', kwargs={'slug': self.slug})
 
     def __str__(self):
         return self.name

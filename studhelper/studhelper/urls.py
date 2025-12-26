@@ -15,6 +15,9 @@ urlpatterns = [
     path('ckeditor5/', include('django_ckeditor_5.urls'))
 ]
 
+admin.site.site_header = "Панель администратора"
+admin.site.index_title = "Администрирование StudHelper"
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
