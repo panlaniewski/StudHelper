@@ -35,15 +35,6 @@ class Topic(models.Model):
                 'pk': self.pk
             }
         )
-
-    def get_preview_text(self, length=150):
-        """Текст для предпросмотра без HTML тегов"""
-        if not self.content:
-            return ""
-        text = strip_tags(self.content)
-        if len(text) > length:
-            return text[:length] + '...'
-        return text
     
     def get_images(self):
         """Извлечение всех изображений из контента"""
@@ -54,14 +45,7 @@ class Topic(models.Model):
         # Ищем все img теги в контенте
         img_tags = re.findall(r'<img[^>]+src="([^">]+)"', self.workbook)
         return img_tags
-    
-    def word_count(self):
-        """Подсчет слов в конспекте"""
-        if not self.workbook:
-            return 0
-        text = strip_tags(self.workbook)
-        words = text.split()
-        return len(words)
+
     
 
 class TopicVersion(models.Model):

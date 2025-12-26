@@ -6,7 +6,7 @@ class Flashcard(models.Model):
     topic = models.ForeignKey('topics.Topic', on_delete=models.CASCADE, null=True, blank=True, verbose_name="Тема")
 
     def __str__(self):
-        return self.question
+        return f"Вопрос: {self.question}\nОтвет: {self.answer}"
     
     class Meta:
         verbose_name = "Карточки"
