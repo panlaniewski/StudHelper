@@ -1,13 +1,14 @@
 from django.db import models
+from django.urls import reverse
 from django_ckeditor_5.fields import CKEditor5Field
 from django.utils.html import strip_tags
 from studhelper import settings
 # ----------------------------------------------------------------------------------------------------------------------    
 class Topic(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='topics', verbose_name="Пользователь", default=1)
-    subject = models.ForeignKey('subjects.Subject', on_delete=models.CASCADE, null=True, blank=True)
+    subject = models.ForeignKey('subjects.Subject', on_delete=models.CASCADE, null=True, blank=True, verbose_name="Предмет")
 
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, verbose_name="Название")
     workbook = CKEditor5Field(
         verbose_name="Конспект",
         config_name='default',
@@ -20,6 +21,20 @@ class Topic(models.Model):
    
     def __str__(self):
         return f"{self.subject.name}: {self.name}"
+
+    class Meta:
+        verbose_name = "Темы"
+        verbose_name_plural = "Темы"
+        ordering = ['order', 'name']
+
+    def get_absolute_url(self):
+        return reverse(
+            'topic_detail',
+            kwargs={
+                'slug': self.subject.slug,
+                'pk': self.pk
+            }
+        )
 
     def get_preview_text(self, length=150):
         """Текст для предпросмотра без HTML тегов"""

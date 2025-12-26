@@ -141,13 +141,10 @@ def edit_synopsis(request, slug, pk):
             
             # Проверяем, какую кнопку нажали
             if 'save_and_continue' in request.POST:
-                messages.success(request, 'Конспект сохранен. Продолжайте редактирование.')
                 return redirect('edit_synopsis', slug=subject.slug, pk=topic.pk)
             elif 'save_and_return' in request.POST:
-                messages.success(request, 'Конспект сохранен.')
                 return redirect('topic_detail', slug=subject.slug, pk=topic.pk)
-        else:
-            messages.error(request, 'Пожалуйста, исправьте ошибки в форме.')
+      
     else:
         form = SynopsisForm(instance=topic)
     
