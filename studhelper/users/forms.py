@@ -22,18 +22,6 @@ class RegisterUserForm(UserCreationForm):
         model = get_user_model()
         fields = ['username', 'email', 'first_name', 'last_name', 'password1', 'password2']
 
-        # labels = {
-        #     'email': "E-mail",
-        #     'first_name': "Имя",
-        #     'last_name': "Фамилия"
-        # }
-
-        # widgets = {
-        #     'email': forms.EmailInput(attrs={'class': 'form-control'}),
-        #     'first_name': forms.TextInput(attrs={'class': 'form-control'}),
-        #     'last_name': forms.TextInput(attrs={'class': 'form-control'}),
-        # }
-
     def clean_email(self):
         email = self.cleaned_data['email']
         if email not in [None, '']:     # валидация только если поле не пустое

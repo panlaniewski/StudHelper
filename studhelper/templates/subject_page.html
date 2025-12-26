@@ -10,16 +10,24 @@
             <h1 class="fw-bold">{{ subject.name }}</h1>
             <p class="lead text-muted">Темы, конспекты и всё, что связано с предметом</p>
         </div>
-        <div class="d-flex justify-content-end mb-3">
-            <button 
-                class="btn btn-success btn-lg"
-                data-bs-toggle="modal"
-                data-bs-target="#addTopicModal"
-            >
-                <i class="bi bi-plus-circle me-2"></i>
-                Добавить тему
-            </button>
+         <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+                <a href="{% url 'home' %}" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-house me-2"></i>На главную
+                </a>
+            </div>
+            <div>
+                <button 
+                    class="btn btn-success btn-lg"
+                    data-bs-toggle="modal"
+                    data-bs-target="#addTopicModal"
+                >
+                    <i class="bi bi-plus-circle me-2"></i>
+                    Добавить тему
+                </button>
+            </div>
         </div>
+        
         <div class="card shadow-sm">
             <div class="card-body">
                 <h3 class="card-title text-center mb-4">
@@ -205,7 +213,7 @@
 <div class="modal fade" id="addTopicModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form method="post" action="{% url 'topic_create' subject.slug %}">
+            <form method="post">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title">

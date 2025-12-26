@@ -374,24 +374,7 @@
                                     Все темы предмета
                                 </a>
                                 
-                                {% if next_topic %}
-                                    <a href="{% url 'topic_detail' next_topic.subject.slug next_topic.pk %}" 
-                                       class="btn btn-primary">
-                                        Следующая тема
-                                        <i class="bi bi-arrow-right ms-2"></i>
-                                    </a>
-                                    <div class="text-muted small mt-1">
-                                        {{ next_topic.name|truncatechars:50 }}
-                                    </div>
-                                {% else %}
-                                    <button class="btn btn-outline-secondary" disabled>
-                                        Следующая тема
-                                        <i class="bi bi-arrow-right ms-2"></i>
-                                    </button>
-                                    <div class="text-muted small mt-1">
-                                        Это последняя тема
-                                    </div>
-                                {% endif %}
+                
                             </div>
                         </div>
                     </div>

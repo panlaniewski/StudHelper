@@ -18,7 +18,6 @@ def subjects_list(request):
 def subject(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     topics = Topic.objects.filter(subject=subject)
-    form = TopicForm()
     # ------------------------------------------------------------------------------------------------------------------------------
     keyword = request.GET.get("keyword", "")
     if keyword:
@@ -31,6 +30,29 @@ def subject(request, slug):
     page_num = request.GET.get("page", 1)
     page = paginator.get_page(page_num)
     # ------------------------------------------------------------------------------------------------------------------------------
+    if request.method == "POST":
+        form = TopicForm(request.POST, user=request.user)
+        if form.is_valid():
+            topic = form.save(commit=False)
+            topic.subject = subject
+            topic.user = request.user
+            
+            # Автоматически определяем order
+            last_topic = Topic.objects.filter(
+                user=request.user, 
+                subject=subject
+            ).order_by('-order').first()
+            
+            if last_topic:
+                topic.order = last_topic.order + 1
+            else:
+                topic.order = 1
+            
+            topic.save()
+            return redirect("subject_detail", slug=subject.slug)
+    else:
+        form = TopicForm(user=request.user)
+    
     context = {
         'subject': subject,
         'topics': page.object_list,
@@ -50,12 +72,12 @@ def subject_delete(request, slug):
 def subject_edit(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     if request.method == "POST":
-        form = SubjectForm(request.POST, instance=subject)
+        form = SubjectForm(request.POST,  user=request.user, instance=subject)
         if form.is_valid():
             form.save()
             return redirect("home")
     else:
-        form = SubjectForm(instance=subject)
+        form = SubjectForm(user=request.user, instance=subject)
         
     context = {"form": form, "subjects": Subject.objects.all()}
     return render(request, "index.html", context)

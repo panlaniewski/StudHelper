@@ -18,10 +18,17 @@ class TopicForm(ModelForm):
         }
         
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user', None)
+        self.user = kwargs.pop('user', None)     # сохраняем текущего пользователя для валидации
         super().__init__(*args, **kwargs)
         for field in self.fields.values():
             field.widget.attrs["class"] = "form-control"
+
+    def clean_name(self):
+        topic_name = self.cleaned_data['name']
+        if topic_name not in [None, '']:     # валидация только если поле не пустое
+            if Topic.objects.filter(user=self.user, name=topic_name).exists():
+                raise forms.ValidationError("Тема с таким именем уже существует!")
+            return topic_name
 
 
 

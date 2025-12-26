@@ -31,14 +31,14 @@ def index(request):
     search_form = SearchForm(initial={"keyword": keyword})
     #Создание нового предмета------------------------------------------------------------------------------------------------------------------------------    
     if request.method == "POST":
-        form = SubjectForm(request.POST)
+        form = SubjectForm(request.POST, user=request.user)
         if form.is_valid():
             subject = form.save(commit=False)
             subject.user = request.user
             subject.save()
             return redirect("home")
     else:
-        form = SubjectForm()
+        form = SubjectForm(user=request.user)
     # ------------------------------------------------------------------------------------------------------------------------------    
     context = { 
         "subjects": page.object_list, 
