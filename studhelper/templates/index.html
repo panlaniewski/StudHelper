@@ -108,7 +108,15 @@
                                         <div class="modal-body">
                                             <form method="post" action="{% url 'subject_edit' subject.slug %}">
                                             {% csrf_token %}
-                                            {{ form.name }}
+                                            {% for field in form %}
+                                            <div class="mb-3">
+                                                <label class="form-label">{{ field.label }}</label>
+                                                {{ field }}
+                                                {% if field.errors %}
+                                                    <div class="text-danger small">{{ field.errors }}</div>
+                                                {% endif %}
+                                            </div>
+                                            {% endfor %}
                                             <div class="mt-3 text-end">
                                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
                                                 <button type="submit" class="btn btn-primary">Сохранить</button>

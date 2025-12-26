@@ -72,12 +72,12 @@ def subject_delete(request, slug):
 def subject_edit(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     if request.method == "POST":
-        form = SubjectForm(request.POST, instance=subject)
+        form = SubjectForm(request.POST,  user=request.user, instance=subject)
         if form.is_valid():
             form.save()
             return redirect("home")
     else:
-        form = SubjectForm(instance=subject)
+        form = SubjectForm(user=request.user, instance=subject)
         
     context = {"form": form, "subjects": Subject.objects.all()}
     return render(request, "index.html", context)
