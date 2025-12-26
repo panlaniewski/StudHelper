@@ -53,31 +53,33 @@ def topic(request, pk, slug):
 
     return render(request, "topic_page.html", context)
 
-def create_topic(request, slug):
-    subject = get_object_or_404(Subject, slug=slug)
+# def create_topic(request, slug):
+#     subject = get_object_or_404(Subject, slug=slug)
 
-    if request.method == "POST":
-        form = TopicForm(request.POST)
-        if form.is_valid():
-            topic = form.save(commit=False)
-            topic.subject = subject
-            topic.user = request.user
+#     if request.method == "POST":
+#         form = TopicForm(request.POST, user=request.user)
+#         if form.is_valid():
+#             topic = form.save(commit=False)
+#             topic.subject = subject
+#             topic.user = request.user
             
-            # Автоматически определяем order
-            last_topic = Topic.objects.filter(
-                user=request.user, 
-                subject=subject
-            ).order_by('-order').first()
+#             # Автоматически определяем order
+#             last_topic = Topic.objects.filter(
+#                 user=request.user, 
+#                 subject=subject
+#             ).order_by('-order').first()
             
-            if last_topic:
-                topic.order = last_topic.order + 1
-            else:
-                topic.order = 1
+#             if last_topic:
+#                 topic.order = last_topic.order + 1
+#             else:
+#                 topic.order = 1
             
-            topic.save()
-            return redirect("subject_detail", slug=subject.slug)
-    else:
-        form = TopicForm()
+#             topic.save()
+#             return redirect("subject_detail", slug=subject.slug)
+#     else:
+#         form = TopicForm(user=request.user)
+    
+    
 
     
 @require_POST

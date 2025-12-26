@@ -205,7 +205,7 @@
 <div class="modal fade" id="addTopicModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <form method="post" action="{% url 'topic_create' subject.slug %}">
+            <form method="post">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h5 class="modal-title">
